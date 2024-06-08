@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block title %}
+    Responses
+{% endblock %}
+{% block content %}
+    
+    <h1>Responses</h1>
+
+    <h3>Survey objective:</h2>
+    <p>{{ survey_objective }}</p>
+
+    <form action="/responses" method="post">
+        <div class="container mb-3" id="response-box" >
+        </div>
+
+        <div class="container mb-3">
+            <button class="btn btn-primary" type="submit">Print to G-sheet</button>
+        </div>
+
+    </form>
+
+    <script>
+        const questions = JSON.parse( {{ questions_json | tojson | safe }} );
+        const responses = JSON.parse( {{ responses_json | tojson | safe }} );
+        const responseBox = document.getElementById("response-box");
+
+        document.addEventListener('DOMContentLoaded', function() {
+            for (let i = 0; i < responses.length; i++) {
+                // Create question element
+                questionSection(i)
+                // Create response element
+                responseSection(i)
+            }
+        });
+
+        function questionSection(i) {
+            // Create h4 element
+            const questionHeader = document.createElement("h4");
+            // Create text node for question text
+            const questionText = document.createTextNode("Question " + (i + 1) + ":");
+            // Append text node to h4 element
+            questionHeader.appendChild(questionText);
+            // Append h4 element to responseBox
+            responseBox.appendChild(questionHeader);
+
+            // Create p element
+            const paragraph = document.createElement("p");
+            // Create text node for question
+            const question = document.createTextNode(questions[i]);
+            // Append text node to p element
+            paragraph.appendChild(question);
+            // Append p element to responseBox
+            responseBox.appendChild(paragraph);
+        }
+
+        function responseSection(i) {
+            // Create h4 element
+            const responseHeader = document.createElement("h4");
+            // Create text node for question text
+            const responseText = document.createTextNode("Response " + (i + 1) + ":");
+            // Append text node to h4 element
+            responseHeader.appendChild(responseText);
+            // Append h4 element to responseBox
+            responseBox.appendChild(responseHeader);
+
+            // Create p element
+            const paragraph = document.createElement("p");
+            // Create text node for question
+            const response = document.createTextNode(responses[i]);
+            // Append text node to p element
+            paragraph.appendChild(response);
+            // Append p element to responseBox
+            responseBox.appendChild(paragraph);
+        }
+
+    </script>
+
+{% endblock %}

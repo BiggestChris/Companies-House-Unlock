@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}
+    Homepage
+{% endblock %}
+{% block content %}
+    
+    <h1>Create a survey</h1>
+
+    <form action="/" method="post" enctype="multipart/form-data">
+
+        <div class="container mt-3 mb-3">
+            <div class="input-group mb-3">
+                <span class="input-group-text"><b>Number of questions: </b></span>
+                <input class="form-control" type="number" min="1" max="10" id="question-number" name="question-number">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><b>Survey objective: </b></span>
+                <textarea class="form-control" aria-label="With textarea" name="survey-objective" required></textarea>
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><b>First question to ask: </b></span>
+                <textarea class="form-control" aria-label="With textarea" name="first-question" required></textarea>
+            </div>
+            <input class="btn btn-primary" type="submit" value="Start">
+        </div>
+
+    </form>
+
+{% endblock %}
