@@ -1,34 +1,59 @@
 {% extends "layout.html" %}
 {% block title %}
-    Results
+    Search Results
 {% endblock %}
 {% block content %}
-    
     <h1>Search Results for {{ director_name }}</h1>
-        
-    {% if results %}
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Address</th>
-                    <th>Month of birth</th>
-                    <th>Appointed On</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for officer in results['items'] %}
+
+    {% if officers %}
+        {% for officer in officers %}
+            <h2>Officer: {{ officer.name }}</h2>
+            <table class="table table-striped">
+                <thead>
                     <tr>
-                        <td>{{ officer['title'] }}</td>
-                        <td>{{ officer['address'] | default('N/A') }}</td>
-                        <td>{{ officer['date_of_birth'] | default('N/A') }}</td>
-                        <td>{{ officer['appointed_on'] | default('N/A') }}</td>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Birth month</th>
+                        <th>Officer ID</th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td>{{ officer['title'] }}</td>
+                            <td>{{ officer['address'] | default('N/A') }}</td>
+                            <td>{{ officer['date_of_birth'] | default('N/A') }}</td>
+                            <td>{{ officer['links']['self'] | default('N/A') }}</td>
+                        </tr>
+                </tbody>
+            </table>
+
+            {% if officer['companies'] %}
+                <h3>Associated Companies</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Company Name</th>
+                            <th>Company Number</th>
+                            <th>Company Status</th>
+                            <th>Incorporation Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for company in officer['companies'] %}
+                            <tr>
+                                <td>{{ company['company_name'] }}</td>
+                                <td>{{ company['company_number'] }}</td>
+                                <td>{{ company['company_status'] }}</td>
+                                <td>{{ company['date_of_creation'] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No associated companies found for this director.</p>
+            {% endif %}
+        {% endfor %}
     {% else %}
         <p>No results found.</p>
     {% endif %}
-
 {% endblock %}

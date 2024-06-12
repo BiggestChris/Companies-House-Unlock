@@ -20,10 +20,36 @@ def search_director(director_name):
     response = requests.get(search_url, headers=headers, auth=HTTPBasicAuth(COMPANIES_HOUSE_API_KEY, ''))
 
     if response.status_code == 200:
-        print(response.json())
+        # print(response.json())
         return response.json()
     else:
         print(f"Error: {response.status_code} - {response.text}")
         return None
 
-# Remove example usage from functions.py to avoid unnecessary execution
+
+def get_director_details(officer_id):
+    base_url = 'https://api.company-information.service.gov.uk'
+    details_url = f'{base_url}/officers/{officer_id}/appointments'
+    auth = HTTPBasicAuth(COMPANIES_HOUSE_API_KEY, '')
+
+    response = requests.get(details_url, auth=auth)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+        return None
+
+
+def get_company_details(company_number):
+    base_url = 'https://api.company-information.service.gov.uk'
+    company_url = f'{base_url}/company/{company_number}'
+    auth = HTTPBasicAuth(COMPANIES_HOUSE_API_KEY, '')
+
+    response = requests.get(company_url, auth=auth)
+    
+    if response.status_code == 200:
+        return response.json()
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+        return None
