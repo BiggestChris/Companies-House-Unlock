@@ -5,3 +5,7 @@
 .comms-content pre {
     white-space: pre-wrap; /* Ensures that the content wraps instead of causing overflow */
 }
+
+a {
+    color: #004FA3
+}

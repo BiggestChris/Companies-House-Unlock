@@ -3,6 +3,8 @@ import re, os
 import csv
 from functions import search_director, get_director_details, get_company_details
 import json
+from itertools import groupby
+from operator import itemgetter
 
 app = Flask(__name__)
 
@@ -44,5 +46,22 @@ def index():
 @app.route("/results", methods=['GET'])
 def results_page():
     # global results
+    
+    sorted_officers = {}
+    unknown = []
 
-    return render_template("results.html", director_name=director_name, officers=officers_with_companies)
+    for officer in officers_with_companies:
+        try:
+            DoB = str(officer['date_of_birth']['month']) + "-" + str(officer['date_of_birth']['year'])
+            print(DoB)
+            if DoB in sorted_officers:
+                sorted_officers[DoB].append(officer)
+            else:
+                sorted_officers[DoB] = []
+                sorted_officers[DoB].append(officer)
+        except KeyError:
+                unknown.append(officer)
+
+    sorted_officers["Unknown"] = unknown
+
+    return render_template("results.html", director_name=director_name, sorted_officers=sorted_officers)

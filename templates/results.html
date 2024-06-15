@@ -5,9 +5,11 @@
 {% block content %}
     <h1>Search Results for {{ director_name }}</h1>
 
-    {% if officers %}
-        {% for officer in officers %}
-            <h2>Officer: {{ officer.name }}</h2>
+    {% if sorted_officers %}
+        {% for dob, officers in sorted_officers.items() %}
+            <h2>Date of Birth: {{ dob }}</h2>
+
+            <!-- List all officers with this date of birth -->
             <table class="table table-striped">
                 <thead>
                     <tr>
@@ -18,40 +20,55 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for officer in officers %}
                         <tr>
-                            <td>{{ officer['title'] }}</td>
+                            <td><a href="https://find-and-update.company-information.service.gov.uk{{ officer['links']['self'] | default('N/A') }}"
+                                target="_blank">
+                                {{ officer['title'] }}</a>
+                            </td>
                             <td>{{ officer['address'] | default('N/A') }}</td>
                             <td>{{ officer['date_of_birth'] | default('N/A') }}</td>
                             <td>{{ officer['links']['self'] | default('N/A') }}</td>
                         </tr>
+                    {% endfor %}
                 </tbody>
             </table>
 
-            {% if officer['companies'] %}
-                <h3>Associated Companies</h3>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Company Name</th>
-                            <th>Company Number</th>
-                            <th>Company Status</th>
-                            <th>Incorporation Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <!-- Collect and list all companies for these officers -->
+            <!-- <h4>Associated Companies</h4> -->
+            {% set has_companies = false %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Company Number</th>
+                        <th>Company Status</th>
+                        <th>Incorporation Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for officer in officers %}
                         {% for company in officer['companies'] %}
+                            {% set has_companies = true %}
                             <tr>
-                                <td>{{ company['company_name'] }}</td>
+                                <td><a href="https://find-and-update.company-information.service.gov.uk/company/{{ company['company_number'] }}"
+                                    target="_blank">
+                                    {{ company['company_name'] }}</a>
+                                </td>
                                 <td>{{ company['company_number'] }}</td>
                                 <td>{{ company['company_status'] }}</td>
                                 <td>{{ company['date_of_creation'] }}</td>
                             </tr>
                         {% endfor %}
-                    </tbody>
-                </table>
-            {% else %}
-                <p>No associated companies found for this director.</p>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!--
+            {% if not has_companies %}
+                <p>No associated companies found for these officers.</p>
             {% endif %}
+            -->
+
         {% endfor %}
     {% else %}
         <p>No results found.</p>
