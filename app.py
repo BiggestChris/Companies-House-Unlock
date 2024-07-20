@@ -67,3 +67,8 @@ def results_page():
     sorted_officers["Unknown"] = unknown
 
     return render_template("results.html", director_name=director_name, sorted_officers=sorted_officers)
+
+
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
+    app.run(host='0.0.0.0', port=port)
