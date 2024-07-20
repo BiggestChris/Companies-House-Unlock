@@ -7,6 +7,8 @@
 
     {% if sorted_officers %}
         {% for dob, officers in sorted_officers.items() %}
+        <hr class="bg-dark edged-less">
+        <div class="edged">
             <h2>Date of Birth: {{ dob }}</h2>
 
             <!-- List all officers with this date of birth -->
@@ -94,7 +96,7 @@
                 <p>No associated companies found for these officers.</p>
             {% endif %}
             -->
-
+        </div>
         {% endfor %}
     {% else %}
         <p>No results found.</p>

@@ -9,3 +9,13 @@
 a {
     color: #004FA3
 }
+
+.edged {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.edged-less {
+    margin-left: 10px;
+    margin-right: 10px;
+}
