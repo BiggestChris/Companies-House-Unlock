@@ -26,7 +26,33 @@
                                 target="_blank">
                                 {{ officer['title'] }}</a>
                             </td>
-                            <td>{{ officer['address'] | default('N/A') }}</td>
+                            <td>
+                                <!--
+                                {{ (officer['address']['care_of'] + ',') if officer['address']['care_of'] else '' }}
+                                {{ (officer['address']['premises'] + ',') if officer['address']['premises'] else '' }}
+                                {{ (officer['address']['address_line_1'] + ',') if officer['address']['address_line_1'] else '' }}
+                                {{ (officer['address']['address_line_2'] + ',') if officer['address']['address_line_2'] else '' }}
+                                {{ (officer['address']['locality'] + ',') if officer['address']['locality'] else '' }}
+                                {{ (officer['address']['region'] + ',') if officer['address']['region'] else '' }}
+                                {{ (officer['address']['postal code'] + ',') if officer['address']['postal code'] else '' }}
+                                {{ (officer['address']['country'] + ',') if officer['address']['country'] else '' }}
+                                -->
+
+                                {% set address_fields = [
+                                    officer['address']['care_of'],
+                                    officer['address']['premises'],
+                                    officer['address']['address_line_1'],
+                                    officer['address']['address_line_2'],
+                                    officer['address']['locality'],
+                                    officer['address']['region'],
+                                    officer['address']['postal code'],
+                                    officer['address']['country']
+                                ] %}
+                                
+                                {{ address_fields | select | join(', ') }}
+                                
+
+                            </td>
                             <td>{{ dob | default('N/A') }}</td>
                             <td>{{ officer['links']['self'][10:37] | default('N/A') }}</td>
                         </tr>
