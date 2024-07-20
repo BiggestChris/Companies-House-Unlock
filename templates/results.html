@@ -28,7 +28,7 @@
                             </td>
                             <td>{{ officer['address'] | default('N/A') }}</td>
                             <td>{{ dob | default('N/A') }}</td>
-                            <td>{{ officer['links']['self'] | default('N/A') }}</td>
+                            <td>{{ officer['links']['self'][10:37] | default('N/A') }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
