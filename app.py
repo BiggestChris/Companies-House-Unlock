@@ -5,6 +5,7 @@ from functions import search_director, get_director_details, get_company_details
 import json
 from itertools import groupby
 from operator import itemgetter
+import calendar
 
 app = Flask(__name__)
 
@@ -52,7 +53,8 @@ def results_page():
 
     for officer in officers_with_companies:
         try:
-            DoB = str(officer['date_of_birth']['month']) + "-" + str(officer['date_of_birth']['year'])
+            DoB = str(calendar.month_name[officer['date_of_birth']['month']][0:3]) + "-" + str(officer['date_of_birth']['year'])
+
             print(DoB)
             if DoB in sorted_officers:
                 sorted_officers[DoB].append(officer)
