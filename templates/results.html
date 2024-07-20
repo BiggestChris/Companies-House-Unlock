@@ -4,6 +4,11 @@
 {% endblock %}
 {% block content %}
     <h1>Search Results for {{ director_name }}</h1>
+    <p>Disclaimer: This App is a work-in-progress and there may be incorrect information, limitations with the API,
+         and different officers may be grouped under the same category if they share properties. Please ensure to 
+         manually verify information directly on Companies House.
+         No responsibility is taken for incorrect information given by the app.
+    </p>
 
     {% if sorted_officers %}
         {% for dob, officers in sorted_officers.items() %}
