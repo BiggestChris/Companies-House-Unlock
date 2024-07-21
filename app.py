@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, redirect
+from flask import Flask, render_template, request, url_for, redirect, session
 import re, os
 import csv
 from functions import search_director, get_director_details, get_company_details
@@ -6,26 +6,34 @@ import json
 from itertools import groupby
 from operator import itemgetter
 import calendar
+from flask_session import Session
 
 app = Flask(__name__)
+
+# Configure session
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    global director_name    # Declare director name being searched as a global variable
-    global officers
-    global officers_with_companies
+    """
+    session['director_name']    # Declare director name being searched as a global variable
+    session['officers']
+    session['officers_with_companies']
+    """
 
     # director_details = []
     # company_details = []
 
     if request.method == 'POST':
-        director_name = request.form.get("director-name")
-        search_results = search_director(director_name)
-        officers = search_results['items'] if search_results and 'items' in search_results else []
-        officers_with_companies = []
+        session['director_name'] = request.form.get("director-name")
+        search_results = search_director(session['director_name'])
+        session['officers'] = search_results['items'] if search_results and 'items' in search_results else []
+        session['officers_with_companies'] = []
 
-        for officer in officers:
+        for officer in session['officers']:
             officer_id = officer['links']['self'].split('/')[2]
             director_details = get_director_details(officer_id)
             if director_details and 'items' in director_details:
@@ -36,7 +44,7 @@ def index():
                     if company_detail:
                         companies.append(company_detail)
                 officer['companies'] = companies
-                officers_with_companies.append(officer)
+                session['officers_with_companies'].append(officer)
 
         return redirect("/results")
 
@@ -51,7 +59,7 @@ def results_page():
     sorted_officers = {}
     unknown = []
 
-    for officer in officers_with_companies:
+    for officer in session['officers_with_companies']:
         try:
             DoB = str(calendar.month_name[officer['date_of_birth']['month']][0:3]) + "-" + str(officer['date_of_birth']['year'])
 
@@ -66,7 +74,7 @@ def results_page():
 
     sorted_officers["Unknown"] = unknown
 
-    return render_template("results.html", director_name=director_name, sorted_officers=sorted_officers)
+    return render_template("results.html", director_name=session['director_name'], sorted_officers=sorted_officers)
 
 
 if __name__ == "__main__":
