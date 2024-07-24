@@ -63,7 +63,7 @@ def results_page():
         try:
             DoB = str(calendar.month_name[officer['date_of_birth']['month']][0:3]) + "-" + str(officer['date_of_birth']['year'])
 
-            print(DoB)
+            # print(DoB)
             if DoB in sorted_officers:
                 sorted_officers[DoB].append(officer)
             else:
@@ -73,9 +73,12 @@ def results_page():
                 unknown.append(officer)
 
     sorted_officers["Unknown"] = unknown
+    print("Search ran successfully", flush=True)
 
     return render_template("results.html", director_name=session['director_name'], sorted_officers=sorted_officers)
 
+"""
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))  # Default to 5000 if PORT is not set
     app.run(host='0.0.0.0', port=port)
+"""
