@@ -2,7 +2,7 @@
  
 ## Summary:
 
-This Tool works by calling the Companies House API to search Director Records and then grouping the results (and their companies) by Date of Birth (DoB). This has been deployed at (https://companies-house-unlock.onrender.com/) - albeit this is using a free-tier hosting service via Render, and so may take up to 60 seconds to spin up when activated, and may strain under high volumes of traffic.
+This Tool works by calling the Companies House API to search Director Records and then grouping the results (and their companies) by Date of Birth (DoB). This has been deployed at https://companies-house-unlock.onrender.com/ - albeit this is using a free-tier hosting service via Render, and so may take up to 60 seconds to spin up when activated, and may strain under high volumes of traffic.
 
 
 ## Background:
@@ -21,6 +21,17 @@ Companies House Unlock calls the Companies House API to retrieve the same search
 2. If a Director has managed to avoid submitting DoB for some records and not others, then they will not be grouped together.
 3. This will group together different people who share the same DoB and appear in the same Companies House search results (i.e. two John Smiths with the same DoB).
 4. It is always advisable to manually check results directly on Companies House and this app should not be solely relied upon. No responsibility is taken for incorrect information given by the app.
+
+## How to use:
+1. Go to the homepage and type in the name of the Director to search - please enter in the format *'First name'* *(Optional)'Middle name/s'* *'Last name'*.
+2. (It has been found that the search function works for legal entities as well as individuals, but it has been designed for individuals in mind). 
+3. Click _Search_.
+4. Wait for results to load (whilst the app calls the Companies House API, this can take up to 60-120 seconds depending upon the size of the results).
+5. The page will automatically refresh when results appear, scroll down to look at all the Director groupings.
+6. Each Director grouping will show the Director record search results with the same Date of Birth, listing the Director name, Address, Birth Month and Officer ID.
+7. Underneath it will show all the companies with directorships of the above records together, for each company it will state the Name, Company number, Status and Incorporation date.
+8. Clicking on a Director name will you to its page on Companies House, similarly clicking on a Company name will take you to its page on Companies House.
+9. All of those results without a Date of Birth will be grouped together at the bottom of the search results.
 
 
 ## Codebase:
