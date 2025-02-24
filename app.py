@@ -55,6 +55,9 @@ def index():
 @app.route("/results", methods=['GET'])
 def results_page():
     # global results
+
+    if not session['officers_with_companies']:
+        return redirect("/")
     
     sorted_officers = {}
     unknown = []
