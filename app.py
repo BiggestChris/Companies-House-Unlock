@@ -56,7 +56,7 @@ def index():
 def results_page():
     # global results
 
-    if not session['officers_with_companies']:
+    if not session.get('officers_with_companies'):
         return redirect("/")
     
     sorted_officers = {}
