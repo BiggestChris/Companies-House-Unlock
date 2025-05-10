@@ -2,3 +2,4 @@ flask==3.0.2
 requests==2.31.0
 python-dotenv==1.0.1
 flask-session==0.8.0
+gunicorn
